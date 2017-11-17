@@ -1,5 +1,21 @@
 # Unisinos-Dictionary-AVL-Tree
 
+## Projeto
+
+O projeto pode ser encontrado em https://github.com/LeoCarmona/Unisinos-Dictionary-AVL-Tree/
+
+## Download
+
+Para baixar o zip atualizado, entre em https://github.com/LeoCarmona/Unisinos-Dictionary-AVL-Tree/archive/master.zip
+
+## Testes Unitários
+
+Os testes unitários podem ser encontrados na pasta src/test/.
+
+## Javadoc
+
+A documentação do projeto pode ser encontrada na pasta doc/.
+
 ## Configurações
 ### Pré-requisitos
 - Alguma IDE Java
