@@ -1,11 +1,12 @@
-package com.github.leocarmona.unisinos_dictionary_avl_tree;
+package com.github.leocarmona.unisinos_dictionary_avl_tree.tradutor;
 
 import java.io.Serializable;
 import java.text.Collator;
 import java.util.ArrayList;
-import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
+import java.util.Set;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -128,8 +129,7 @@ public class Dicionario implements Serializable {
 
             // Se não possui definição, adiciona a nova definição
             if (!jaPossuiDefinicao) {
-                this.getDefinicoes().add(novaDefinicao);
-                // adicionou = this.getDefinicoes().add(novaDefinicao) || adicionou;
+                adicionou = this.getDefinicoes().add(novaDefinicao) || adicionou;
             }
         }
 
@@ -149,7 +149,7 @@ public class Dicionario implements Serializable {
             return false;
         }
 
-        definicao = definicao.trim();
+        definicao = definicao.trim().toLowerCase();
 
         final List<String> definicoes = this.getDefinicoes();
 
@@ -160,14 +160,7 @@ public class Dicionario implements Serializable {
             }
         }
 
-        boolean adicionou = definicoes.add(definicao);
-
-        // Se adicionou, re-ordena as definições do dicionário.
-        if (adicionou) {
-            Collections.sort(definicoes);
-        }
-
-        return adicionou;
+        return definicoes.add(definicao);
     }
 
     /**
@@ -179,12 +172,19 @@ public class Dicionario implements Serializable {
      * @return True se a definição foi removida. Caso contrário, false.
      */
     public boolean removerDefinicao(String definicao) {
+        if (StringUtils.isBlank(definicao)) {
+            return false;
+        }
+        
+        definicao = definicao.toLowerCase().trim().replace("\\s+", " ");
+        
         boolean removeu = false;
 
-        for (String _definicao : this.getDefinicoes()) {
-            if (COLLATOR.compare(_definicao, definicao) == 0) {
-                // Remove todas as definições ignorando acentos, letras maiusculas e minusculas.
-                removeu = this.getDefinicoes().remove(_definicao) || removeu;
+        for (int i = 0; i < this.getDefinicoes().size(); i++) {
+            // Remove todas as definições ignorando acentos, letras maiusculas e minusculas.
+            if (COLLATOR.compare(this.getDefinicoes().get(i), definicao) == 0) {
+                this.getDefinicoes().remove(i--);
+                removeu = true;
             }
         }
 
@@ -288,7 +288,7 @@ public class Dicionario implements Serializable {
      * 
      * @return As definições da palavra atual.
      * 
-     * @see getPalavra()
+     * @see #getPalavra()
      */
     public List<String> getDefinicoes() {
         return definicoes;
@@ -300,10 +300,12 @@ public class Dicionario implements Serializable {
      * @param definicoes
      *            As novas definições da palavra atual.
      * 
-     * @see getPalavra()
+     * @see #getPalavra()
      */
     public void setDefinicoes(List<String> definicoes) {
         if (definicoes != null) {
+            Dicionario.Utils.ajustarDefinicoes(definicoes);
+
             this.definicoes = definicoes;
         } else {
             this.definicoes = new ArrayList<>();
@@ -392,13 +394,19 @@ public class Dicionario implements Serializable {
          *            Definições a serem ajustadas.
          */
         public static void ajustarDefinicoes(List<String> definicoes) {
+            Set<String> _definicoes = new HashSet<>();
+
+            // Remove os valores nulos e brancos.
+            // Ajusta todas as definições para minúsculo e remove os espaços em branco excedentes.
             for (int i = 0; i < definicoes.size(); i++) {
-                if (StringUtils.isBlank(definicoes.get(i))) {
-                    definicoes.remove(i--);
-                } else {
-                    definicoes.set(i, definicoes.get(i).trim());
+                if (!StringUtils.isBlank(definicoes.get(i))) {
+                    _definicoes.add(definicoes.get(i).trim().toLowerCase().replaceAll("\\s+", " "));
                 }
             }
+
+            // Remove os valores repetidos.
+            definicoes.clear();
+            definicoes.addAll(_definicoes);
         }
 
     }

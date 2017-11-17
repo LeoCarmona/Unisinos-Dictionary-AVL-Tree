@@ -1,4 +1,4 @@
-package com.github.leocarmona.unisinos_dictionary_avl_tree;
+package com.github.leocarmona.unisinos_dictionary_avl_tree.tradutor;
 
 import java.io.File;
 import java.io.FileWriter;

@@ -6,6 +6,9 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 
+import com.github.leocarmona.unisinos_dictionary_avl_tree.tradutor.Dicionario;
+import com.github.leocarmona.unisinos_dictionary_avl_tree.tradutor.Tradutor;
+
 /**
  * Classe responsável pela inicialização externa do tradutor.
  * 

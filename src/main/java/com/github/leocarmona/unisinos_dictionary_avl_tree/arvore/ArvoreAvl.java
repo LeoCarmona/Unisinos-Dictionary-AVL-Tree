@@ -9,7 +9,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.github.leocarmona.unisinos_dictionary_avl_tree.Dicionario;
+import com.github.leocarmona.unisinos_dictionary_avl_tree.tradutor.Dicionario;
 
 /**
  * Estrutura de dados responsável por representar uma árvore AVL.

@@ -1,4 +1,4 @@
-package com.github.leocarmona.unisinos_dictionary_avl_tree;
+package com.github.leocarmona.unisinos_dictionary_avl_tree.tradutor;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -7,6 +7,9 @@ import java.util.List;
 
 import org.junit.Assert;
 import org.junit.Test;
+
+import com.github.leocarmona.unisinos_dictionary_avl_tree.tradutor.Dicionario;
+import com.github.leocarmona.unisinos_dictionary_avl_tree.tradutor.Tradutor;
 
 /**
  * Classe responsável por testar as classes {@link Tradutor} e {@link Tradutor.Utils}.
@@ -36,7 +39,7 @@ public class TradutorTest {
     private static final String       XML_TRADUCAO_7     = "<traducao7>";
 
     // ====================================================================================================
-    // Validações do método Tradutor.insereTraducao e Tradutor.traduzPalavra
+    // Validações dos métodos Tradutor.insereTraducao e Tradutor.traduzPalavra
     // ====================================================================================================
 
     /**
@@ -51,7 +54,7 @@ public class TradutorTest {
         tradutor.insereTraducao("be", new ArrayList<>(Arrays.asList("ser", "estar")));
         Assert.assertEquals(new ArrayList<>(Arrays.asList("ser", "estar")), tradutor.traduzPalavra("be"));
         
-        tradutor.insereTraducao("be", Arrays.asList("haver"));
+        tradutor.insereTraducao("be", new ArrayList<>(Arrays.asList("haver")));
         Assert.assertEquals(new ArrayList<>(Arrays.asList("ser", "estar", "haver")), tradutor.traduzPalavra("be"));
     }
 
