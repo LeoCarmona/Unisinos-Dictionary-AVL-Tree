@@ -40,7 +40,7 @@ public class App {
      * Método responsável por carregar o dicionário padrão.
      */
     private static void carregarDicionarioPadrao() {
-        System.out.println("Carregando dicionário de: " + DICIONARIO_PADRAO.getAbsolutePath());
+        System.out.println("Carregando o dicionário de: " + DICIONARIO_PADRAO.getAbsolutePath());
 
         if (DICIONARIO_PADRAO.exists()) {
             TRADUTOR.carregaDicionario(DICIONARIO_PADRAO.getAbsolutePath());
@@ -63,10 +63,13 @@ public class App {
         System.out.println("Insira uma das opções:\n");
         System.out.println("1) Traduzir palavra");
         System.out.println("2) Inserir definição");
-        System.out.println("3) Salvar dicionário");
-        System.out.println("4) Sair");
+        System.out.println("3) Alterar definição");
+        System.out.println("4) Remover definição");
+        System.out.println("5) Listar todas as definições");
+        System.out.println("6) Salvar dicionário");
+        System.out.println("0) Sair");
 
-        int resposta = 0;
+        int resposta;
 
         while (true) {
             boolean erro = false;
@@ -78,9 +81,10 @@ public class App {
             } catch (Exception e) {
                 TECLADO.next();
                 erro = true;
+                resposta = -1;
             }
 
-            if (erro || resposta < 1 || resposta > 4) {
+            if (erro || resposta < 0 || resposta > 6) {
                 continue;
             }
 
@@ -97,15 +101,44 @@ public class App {
                 break;
 
             case 3:
+                alterarDefinicao();
+                break;
+
+            case 4:
+                removerDefinicao();
+                break;
+
+            case 5:
+                listarDefinicoes();
+                break;
+
+            case 6:
                 salvarDicionario(true);
                 break;
         }
 
-        System.out.println("\n" + DIVISOR + "\n");
+        if (resposta == 0) {
+            System.out.print("Deseja salvar o dicionário antes de sair (s/n)? ");
+            
+            while (true) {
+                String opc = TECLADO.next().toLowerCase();
 
-        if (resposta == 4) {
+                if ("s".equals(opc)) {
+                    App.salvarDicionario(true);
+                    break;
+                }
+
+                if ("n".equals(opc)) {
+                    break;
+                }
+            }
+
+            System.out.println("\n" + DIVISOR + "\n");
+
             System.exit(0);
         }
+
+        System.out.println("\n" + DIVISOR + "\n");
     }
 
     /**
@@ -151,6 +184,89 @@ public class App {
         List<String> definicoes = App.perguntarDefinicoes();
 
         TRADUTOR.insereTraducao(palavra, definicoes);
+    }
+
+    /**
+     * Método responsável por alterar uma definição.
+     */
+    private static void alterarDefinicao() {
+        System.out.print("\nPalavra: ");
+
+        String palavra = TECLADO.next().trim();
+        List<String> definicoes = TRADUTOR.traduzPalavra(palavra);
+
+        if (definicoes.isEmpty()) {
+            System.out.println("A palavra '" + palavra + "' não possui definições.");
+        } else {
+            System.out.println("Definições existentes: " + definicoes);
+            System.out.print("Alterar definição: ");
+            
+            String definicao = TECLADO.next();
+            
+            int indice = -1;
+            
+            for (int i = 0; i < definicoes.size(); i++) {
+                if (definicao.equals(definicoes.get(i))) {
+                    indice = i;
+                    break;
+                }
+            }
+
+            if (indice > -1) {
+                System.out.print("Nova definição: ");
+                String novaDefinicao = TECLADO.next();
+                
+                definicoes.remove(indice);
+                TRADUTOR.insereTraducao(palavra, new ArrayList<>(Arrays.asList(novaDefinicao)));
+                
+                System.out.println("A definição '" + definicao + "' foi alterada para '" + novaDefinicao + "' com sucesso!");
+            } else {
+                System.out.println("A definição '" + definicao + "' não foi encontrada!");
+            }
+        }
+    }
+
+    /**
+     * Método responsável por remover uma definição.
+     */
+    private static void removerDefinicao() {
+        System.out.print("\nPalavra: ");
+
+        String palavra = TECLADO.next().trim();
+        List<String> definicoes = TRADUTOR.traduzPalavra(palavra);
+
+        if (definicoes.isEmpty()) {
+            System.out.println("A palavra '" + palavra + "' não possui definições.");
+        } else {
+            System.out.println("Definições possíveis: " + definicoes);
+            System.out.print("Remover definição: ");
+            palavra = TECLADO.next().trim().replaceAll("\\s+", " ").toLowerCase();
+
+            if (definicoes.remove(palavra)) {
+                System.out.println("A definição '" + palavra + "' foi removida com sucesso!");
+            } else {
+                System.out.println("A definição '" + palavra + "' não foi encontrada!");
+            }
+        }
+    }
+
+    /**
+     * Método responsável por listar as definições
+     */
+    private static void listarDefinicoes() {
+        System.out.print("\nDefinições existentes: ");
+
+        List<Dicionario> dicionarios = TRADUTOR.getConteudo();
+
+        if (dicionarios.isEmpty()) {
+            System.out.print("O dicionário está vazio!");
+        } else {
+            System.out.print(dicionarios.size() + "\n\n");
+
+            for (Dicionario dicionario : dicionarios) {
+                System.out.println("Palavra: [" + dicionario.getPalavra() + "]\t\tDefinições: " + dicionario.getDefinicoes());
+            }
+        }
     }
 
     /**

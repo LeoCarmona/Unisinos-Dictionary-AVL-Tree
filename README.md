@@ -8,6 +8,10 @@ O projeto pode ser encontrado em https://github.com/LeoCarmona/Unisinos-Dictiona
 
 Para baixar o zip atualizado, entre em https://github.com/LeoCarmona/Unisinos-Dictionary-AVL-Tree/archive/master.zip
 
+## Execução
+
+Para executar o projeto, execute o arquivo run.bat
+
 ## Testes Unitários
 
 Os testes unitários podem ser encontrados na pasta src/test/.

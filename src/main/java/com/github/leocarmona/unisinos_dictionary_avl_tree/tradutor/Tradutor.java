@@ -71,6 +71,15 @@ public class Tradutor implements Serializable {
     public void insereTraducao(String palavra, List<String> definicoes) {
         this.arvore.adicionar(new Dicionario(palavra, definicoes));
     }
+    
+    /**
+     * Método responsável por resgatar o conteúdo da árvore em ordem.
+     * 
+     * @return Todo o conteúdo da árvore em ordem.
+     */
+    public List<Dicionario> getConteudo() {
+        return arvore.getConteudo();
+    }
 
     /**
      * Método responsável por salvar o arquivo de dicionário.
