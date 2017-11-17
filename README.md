@@ -14,7 +14,7 @@ Os testes unitários podem ser encontrados na pasta src/test/.
 
 ## Javadoc
 
-A documentação do projeto pode ser encontrada na pasta doc/.
+A documentação do projeto pode ser encontrada na pasta doc/index.hml.
 
 ## Configurações
 ### Pré-requisitos
