@@ -45,14 +45,11 @@ public class App {
         if (DICIONARIO_PADRAO.exists()) {
             TRADUTOR.carregaDicionario(DICIONARIO_PADRAO.getAbsolutePath());
         } else {
-            System.out.println("O dicionário não foi encontrado.");
-            System.out.println("Criando um novo dicionário.");
-
             TRADUTOR.insereTraducao("be", new ArrayList<>(Arrays.asList("ser", "estar", "haver", "ficar", "existir")));
             TRADUTOR.insereTraducao("i", new ArrayList<>(Arrays.asList("eu")));
             TRADUTOR.insereTraducao("am", new ArrayList<>(Arrays.asList("sou")));
 
-            salvarDicionario();
+            salvarDicionario(false);
         }
 
         System.out.println("");
@@ -100,7 +97,7 @@ public class App {
                 break;
 
             case 3:
-                salvarDicionario();
+                salvarDicionario(true);
                 break;
         }
 
@@ -176,11 +173,16 @@ public class App {
 
     /**
      * Método responsável por salvar o dicionário.
+     * 
+     * @param exibeMensagem
+     *            Se true, exibe a mensagem. Caso contrário, false.
      */
-    private static void salvarDicionario() {
+    private static void salvarDicionario(boolean exibeMensagem) {
         TRADUTOR.salvaDicionario(DICIONARIO_PADRAO.getAbsolutePath());
 
-        System.out.println("\nDicionário salvo com sucesso em " + DICIONARIO_PADRAO.getAbsolutePath() + "");
+        if (exibeMensagem) {
+            System.out.println("\nDicionário salvo com sucesso em " + DICIONARIO_PADRAO.getAbsolutePath() + "");
+        }
     }
 
 }
