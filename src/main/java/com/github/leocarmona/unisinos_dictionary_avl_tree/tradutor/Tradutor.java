@@ -12,7 +12,7 @@ import org.apache.commons.io.FileUtils;
 import com.github.leocarmona.unisinos_dictionary_avl_tree.arvore.ArvoreAvl;
 
 /**
- * Classe responsável por traduzir as palavras de uma @l{@link ArvoreAvl} de {@link Dicionario}.
+ * Classe responsável por traduzir as palavras de uma {@link ArvoreAvl} de {@link Dicionario}.
  * 
  * @author leonardo.carmona
  * 
