@@ -1,5 +1,6 @@
 package com.github.leocarmona.unisinos_dictionary_avl_tree.tradutor;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -37,7 +38,7 @@ public class TradutorTest {
     private static final String       XML_TRADUCAO_5     = "<traducao5>";
     private static final String       XML_TRADUCAO_6     = "<traducao6>";
     private static final String       XML_TRADUCAO_7     = "<traducao7>";
-
+    
     // ====================================================================================================
     // Validações dos métodos Tradutor.insereTraducao e Tradutor.traduzPalavra
     // ====================================================================================================
@@ -72,6 +73,43 @@ public class TradutorTest {
 
         Assert.assertEquals(PALAVRA_INGLES, dicionario.getPalavra());
         Assert.assertEquals(DEFINICOES, dicionario.getDefinicoes());
+    }
+    
+    // ====================================================================================================
+    // Validações dos métodos Tradutor.salvaDicionario e Tradutor.carregaDicionario
+    // ====================================================================================================
+
+    /**
+     * Valida o salvamento e o carregamento do dicionário.
+     */
+    @Test
+    public void salva_carregaDicionarioTest() {
+        Tradutor tradutor = new Tradutor(), tradutorCarregado;
+        String temp = System.getProperty("java.io.tmpdir");
+        File arquivo;
+        
+        Assert.assertNotNull("A pasta temporária do sistema não foi encontrada", temp);
+        
+        arquivo = new File(temp  + "dicionario.dat");
+        
+        tradutor.insereTraducao("be", new ArrayList<>(Arrays.asList("ser", "estar", "haver", "ficar", "existir")));
+        tradutor.insereTraducao("i", new ArrayList<>(Arrays.asList("eu")));
+        tradutor.insereTraducao("am", new ArrayList<>(Arrays.asList("sou")));
+        
+        tradutor.salvaDicionario(arquivo.getAbsolutePath());
+        
+        tradutorCarregado = new Tradutor(arquivo.getAbsolutePath());
+        
+        Assert.assertEquals(Arrays.asList("ser", "estar", "haver", "ficar", "existir"), tradutorCarregado.traduzPalavra("be"));
+        Assert.assertEquals(Arrays.asList("eu"), tradutorCarregado.traduzPalavra("i"));
+        Assert.assertEquals(Arrays.asList("sou"), tradutorCarregado.traduzPalavra("am"));
+        
+        tradutorCarregado = new Tradutor();
+        tradutorCarregado.carregaDicionario(arquivo.getAbsolutePath());
+        
+        Assert.assertEquals(Arrays.asList("ser", "estar", "haver", "ficar", "existir"), tradutorCarregado.traduzPalavra("be"));
+        Assert.assertEquals(Arrays.asList("eu"), tradutorCarregado.traduzPalavra("i"));
+        Assert.assertEquals(Arrays.asList("sou"), tradutorCarregado.traduzPalavra("am"));
     }
 
     // ====================================================================================================

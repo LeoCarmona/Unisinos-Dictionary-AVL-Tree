@@ -120,10 +120,8 @@ public class Tradutor implements Serializable {
      * 
      * @param arq
      *            Nome do arquivo a ser carregado.
-     * 
-     * @return True se o dicionário foi carregado. Caso contrário, false.
      */
-    public boolean carregaDicionario(String arq) {
+    public void carregaDicionario(String arq) {
         try {
             int linhaCount = 1;
 
@@ -138,11 +136,7 @@ public class Tradutor implements Serializable {
             }
         } catch (IOException e) {
             e.printStackTrace();
-
-            return false;
         }
-
-        return true;
     }
 
     protected Dicionario lerLinhaDoArquivo(String linha) {

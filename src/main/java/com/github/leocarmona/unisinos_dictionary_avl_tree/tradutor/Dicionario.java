@@ -3,7 +3,7 @@ package com.github.leocarmona.unisinos_dictionary_avl_tree.tradutor;
 import java.io.Serializable;
 import java.text.Collator;
 import java.util.ArrayList;
-import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Locale;
 import java.util.Set;
@@ -74,6 +74,8 @@ public class Dicionario implements Serializable {
         this.palavra = palavra;
 
         if (definicoes != null) {
+            Dicionario.Utils.ajustarDefinicoes(definicoes);
+            
             this.definicoes = definicoes;
         } else {
             this.definicoes = new ArrayList<String>();
@@ -394,7 +396,8 @@ public class Dicionario implements Serializable {
          *            Definições a serem ajustadas.
          */
         public static void ajustarDefinicoes(List<String> definicoes) {
-            Set<String> _definicoes = new HashSet<>();
+            // Foi usado LinkedHashSet ao invés de HashSet para preservar a ordem de inserção dos elementos.
+            Set<String> _definicoes = new LinkedHashSet<>();
 
             // Remove os valores nulos e brancos.
             // Ajusta todas as definições para minúsculo e remove os espaços em branco excedentes.
